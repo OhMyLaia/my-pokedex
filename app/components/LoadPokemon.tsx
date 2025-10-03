@@ -1,5 +1,5 @@
 "use client";
-import type { Pokemon } from "./Type";
+import type { Pokemon } from "./Types";
 import { fetchPokemon } from "@/app/actions/getPokemon";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
@@ -23,16 +23,16 @@ function LoadPokemon({ search, initialPokemonList
   const loadMorePokemon = async () => {
     setLoading(true)
     const nextPage = page + 1;
-    const newPokemon = await fetchPokemon({
+    const newPokemonList = await fetchPokemon({
       search,
       page: nextPage
     });
 
     setPage(nextPage);
     setPokemon((prev) => {
-      if (!prev) return newPokemon;
+      if (!prev) return newPokemonList;
 
-      const pokemonSet = newPokemon.filter((pokemon: Pokemon) => {
+      const pokemonSet = newPokemonList.filter((pokemon: Pokemon) => {
         return !prev.some((poke) => poke.name === pokemon.name);
       });
       return [...prev, ...pokemonSet];
@@ -40,6 +40,7 @@ function LoadPokemon({ search, initialPokemonList
 
     setLoading(false);
   }
+
 
   useEffect(() => {
     if (inView) {
@@ -53,7 +54,6 @@ function LoadPokemon({ search, initialPokemonList
     grid
     sm:grid-cols-2
     md:grid-cols-3
-    lg:bg-amber-500
     lg:grid-cols-4
     gap-10
     ">
@@ -62,6 +62,7 @@ function LoadPokemon({ search, initialPokemonList
           <CardPokemon
             key={poke.url}
             pokemon={poke}
+            number={index+1}
           />
         ))
       }
@@ -69,7 +70,7 @@ function LoadPokemon({ search, initialPokemonList
 
       </div>
       { pokemon && pokemon.length >= 24 && (
-        <div className="mx auto" ref={ref}>
+        <div className="flex justify-center items-center p-4 text-center mx-auto" ref={ref}>
           <ClipLoader />
         </div>
       )}

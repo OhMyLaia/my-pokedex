@@ -1,14 +1,20 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { VT323 } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
 import LoadPokemon from "@/app/components/LoadPokemon";
 import { FavouritesProvider } from "./context/FavouritesContext";
 
-const inter = Inter({
-  subsets: ["latin"],
+const vt323 = VT323({
+  weight: '400',
+  subsets: ['latin'],
+  display: 'swap',
 });
+
+// const inter = Inter({
+//   subsets: ["latin"],
+// });
 
 // const geistMono = Geist_Mono({
 //   variable: "--font-geist-mono",
@@ -26,8 +32,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={inter.className}>
-      <body className={`bg-gradient-to-b from-indigo-100 to-indigo-400 min-h-screen antialiased`}>
+    <html lang="en" className={vt323.className}>
+      <body className={`bg-gradient-to-r from-indigo-100 to-indigo-500 min-h-screen antialiased`}>
         <FavouritesProvider>
           <Navbar />
           {children}

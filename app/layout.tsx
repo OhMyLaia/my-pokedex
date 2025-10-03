@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import LoadPokemon from "@/components/LoadPokemon";
+import Navbar from "@/app/components/Navbar";
+import Footer from "@/app/components/Footer";
+import LoadPokemon from "@/app/components/LoadPokemon";
+import { FavouritesProvider } from "./context/FavouritesContext";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -27,10 +28,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.className}>
       <body className={`bg-gradient-to-b from-indigo-100 to-indigo-400 min-h-screen antialiased`}>
-        <Navbar/>
-        {children}
-        <LoadPokemon/>
-        <Footer/>
+        <FavouritesProvider>
+          <Navbar />
+          {children}
+          <LoadPokemon />
+          <Footer />
+        </FavouritesProvider>
       </body>
     </html>
   );

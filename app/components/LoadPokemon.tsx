@@ -53,9 +53,10 @@ function LoadPokemon({ search, initialPokemonList
     <div className="
     grid
     sm:grid-cols-2
-    md:grid-cols-3
+    md:grid-cols-2
     lg:grid-cols-4
-    gap-10
+    gap-15
+    m-1
     ">
       {pokemon && 
         pokemon.map((poke: Pokemon, index: number) => (

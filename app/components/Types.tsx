@@ -2,7 +2,8 @@ export type Pokemon = {
     name: string,
     url: string
     number: number,
-    abilities: string[]
+    abilities: Ablility,
+    types: { type: { name: string } }[]
 }
 
 export interface Ablility {
@@ -11,12 +12,32 @@ export interface Ablility {
     };
 }
 
-export enum PokeType {
-    fire = "bg-red-500",
-    grass = "bg-green-500",
-    water = "bg-blue-500",
-    electric = "bg-yellow-500",
-    poison = "bg-purple-500",
-    flying = "bg-orange-400",
+export interface PokemonData {
+    height: number;
+    weight: number;
+    abilities: Ablility[];
+    types: { type: { name: string } }[];
 }
+
+export enum PokeType {
+    fire = "rgb(239, 68, 68)",
+    bug = "rgb(34, 197, 94)",
+    water = "rgb(59, 130, 246)",
+    electric = "rgb(234, 179, 8)",
+    poison = "rgb(168, 85, 247)",
+    flying = "rgb(251, 146, 60)",
+    fighting = "rgb(185, 28, 28)",
+    normal = "rgb(245, 181, 228)",
+    ground = "rgb(245, 158, 11)",
+    fairy = "rgb(249, 168, 212)",
+    psychic = "rgb(99, 102, 241)",
+    rock = "rgb(226, 232, 240)",
+    grass = "rgb(74, 222, 128)",
+    ghost = "rgb(124, 58, 237)",
+    ice = "rgb(103, 232, 249)",
+    dragon = "rgb(67, 56, 202)",
+    steel = "rgb(156, 163, 175)",
+    dark = "rgb(31, 41, 55)"
+}
+
 

@@ -1,6 +1,7 @@
 import { fetchPokemon } from "./actions/getPokemon";
 import LoadPokemon from "@/app/components/LoadPokemon";
 import SearchBar from "@/app/components/SearchBar";
+
 const Page = async ({
   searchParams,
 }: {
@@ -14,6 +15,7 @@ const Page = async ({
       : undefined;
 
   const pokemon = await fetchPokemon({ search });
+
   return (
     <div className="max-w-[1500px] w-[95%] mx-auto">
     {/* //   <SearchBar search={search} /> */}

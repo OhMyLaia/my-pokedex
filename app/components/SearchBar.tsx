@@ -1,6 +1,8 @@
 
 
 function SearchBar() {
+
+    
     return (
         <div>SearchBar</div>
     )

@@ -1,7 +1,7 @@
 "use client"
 
 import { createContext, useContext, useEffect, useState } from "react";
-import type { Pokemon } from "../../types/types";
+import type { Pokemon } from "../components/LoadPokemon";
 
 type FavouritesContextType = {
     favourites: Pokemon[];

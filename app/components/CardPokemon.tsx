@@ -1,8 +1,8 @@
 'use client'
 
 import { useEffect, useState } from "react";
-import type { Pokemon } from "../../types/types";
-import { Ablility, PokemonData } from "../../types/types";
+import type { Pokemon } from "./LoadPokemon";
+import { PokemonData } from "../../types/types";
 import { motion } from "motion/react";
 import Image from "next/image";
 import { PokeType } from "../../types/types";

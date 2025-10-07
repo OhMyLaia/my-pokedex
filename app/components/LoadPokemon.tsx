@@ -1,11 +1,20 @@
 "use client"
 
-import type { Pokemon } from "@/types/types";
+// import type { Pokemon } from "@/types/types";
+import type { Ablility } from "@/types/types";
 import { fetchPokemon } from "@/app/actions/getPokemon";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { ClipLoader } from "react-spinners";
 import CardPokemon from "./CardPokemon";
+
+export type Pokemon = {
+    name: string,
+    url: string
+    number: number,
+    abilities: Ablility,
+    types: { type: { name: string } }[]
+}
 
 function LoadPokemon({ search, initialPokemonList
 } : {

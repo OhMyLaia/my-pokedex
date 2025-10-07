@@ -1,6 +1,6 @@
 "use client"
 
-import type { Pokemon } from "../../types/Types";
+import type { Pokemon } from "@/types/types";
 import { fetchPokemon } from "@/app/actions/getPokemon";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";

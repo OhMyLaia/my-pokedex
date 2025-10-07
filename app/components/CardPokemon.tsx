@@ -1,11 +1,11 @@
 'use client'
 
 import { useEffect, useState } from "react";
-import type { Pokemon } from "../../types/Types";
-import { Ablility, PokemonData } from "../../types/Types";
+import type { Pokemon } from "../../types/types";
+import { Ablility, PokemonData } from "../../types/types";
 import { motion } from "motion/react";
 import Image from "next/image";
-import { PokeType } from "../../types/Types";
+import { PokeType } from "../../types/types";
 
 
 function CardPokemon({ pokemon, number }: { pokemon: Pokemon, number: number }) {

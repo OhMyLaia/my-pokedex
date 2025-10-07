@@ -24,6 +24,7 @@ const vt323 = VT323({
 export const metadata: Metadata = {
   title: "my-Pokedex",
   description: "Next.js Pokedex",
+  icons: "pokeball-icon.png"
 };
 
 export default function RootLayout({

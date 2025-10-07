@@ -1,6 +1,5 @@
 "use client"
 
-// import type { Pokemon } from "@/types/types";
 import type { Ablility } from "@/types/types";
 import { fetchPokemon } from "@/app/actions/getPokemon";
 import { useEffect, useState } from "react";

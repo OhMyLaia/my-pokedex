@@ -14,7 +14,7 @@ const Page = async ({
       ? searchParams.search
       : undefined;
 
-  const pokemon = await fetchPokemon({ search });
+  const fetchedPokemon = await fetchPokemon({ search });
 
   return (
     <div className="max-w-[1500px] w-[95%] mx-auto">
@@ -22,7 +22,7 @@ const Page = async ({
       <ul key={Math.random()}>
         <LoadPokemon
           search={search}
-          initialPokemonList={pokemon}
+          initialPokemonList={fetchedPokemon}
         />
       </ul>
     </div>

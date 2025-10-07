@@ -1,3 +1,11 @@
+export type Poke = {
+    name: string,
+    url: string
+    number: number,
+    abilities: Ablility,
+    types: { type: { name: string } }[]
+}
+
 
 export interface Ablility {
     ability: {

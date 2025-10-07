@@ -1,19 +1,11 @@
 "use client"
 
-import type { Ablility } from "@/types/types";
+import type { Ablility, Poke } from "@/types/types";
 import { fetchPokemon } from "@/app/actions/getPokemon";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { ClipLoader } from "react-spinners";
 import CardPokemon from "./CardPokemon";
-
-export type Poke = {
-    name: string,
-    url: string
-    number: number,
-    abilities: Ablility,
-    types: { type: { name: string } }[]
-}
 
 function LoadPokemon({ search, initialPokemonList
 } : {
@@ -21,7 +13,7 @@ function LoadPokemon({ search, initialPokemonList
   initialPokemonList?: Poke[] | undefined;
 }) {
 
-  const [pokemon, setPokemon] = useState(initialPokemonList);
+  const [pokemon, setPokemon] = useState<Poke[] | undefined>(initialPokemonList);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const {ref, inView} = useInView({

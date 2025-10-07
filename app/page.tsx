@@ -1,6 +1,6 @@
 import { fetchPokemon } from "./actions/getPokemon";
 import LoadPokemon from "@/app/components/LoadPokemon";
-import SearchBar from "@/app/components/SearchBar";
+// import SearchBar from "@/app/components/SearchBar";
 
 const Page = async ({
   searchParams,

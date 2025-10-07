@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from "react";
 import type { Pokemon } from "./LoadPokemon";
-import { PokemonData } from "@/types/types";
+import { PokemonData } from "../../types/types";
 import { motion } from "motion/react";
 import Image from "next/image";
-import { PokeType } from "@/types/types";
+import { PokeType } from "../../types/types";
 
 
 function CardPokemon({ pokemon, number }: { pokemon: Pokemon, number: number }) {

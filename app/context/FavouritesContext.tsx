@@ -1,23 +1,23 @@
 "use client"
 
 import { createContext, useContext, useState } from "react";
-import type { Pokemon } from "../components/LoadPokemon";
+import type { Poke } from "../components/LoadPokemon";
 
 type FavouritesContextType = {
-    favourites: Pokemon[];
-    toggleFav: (pokemon: Pokemon) => void;
+    favourites: Poke[];
+    toggleFav: (pokemon: Poke) => void;
 }
 
 const FavouritesContext = createContext<FavouritesContextType | undefined>(undefined);
 
 export function FavouritesProvider({ children }: { children: React.ReactNode }) {
-    const [favs, setFavs] = useState<Pokemon[]>([]);
+    const [favs, setFavs] = useState<Poke[]>([]);
 
-    const toggleFav = (pokemon: Pokemon) => {
+    const toggleFav = (pokemon: Poke) => {
 
-        setFavs((prev: Pokemon[]) => {
-            if (prev.some((poke: Pokemon) => poke.name.toLowerCase() === pokemon.name.toLowerCase())) {
-                return prev.filter((poke: Pokemon) => poke.name !== pokemon.name);
+        setFavs((prev: Poke[]) => {
+            if (prev.some((poke: Poke) => poke.name.toLowerCase() === pokemon.name.toLowerCase())) {
+                return prev.filter((poke: Poke) => poke.name !== pokemon.name);
             } else {
                 return [...prev, pokemon];
             }

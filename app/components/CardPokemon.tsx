@@ -1,14 +1,14 @@
 'use client'
 
 import { useEffect, useState } from "react";
-import type { Pokemon } from "./LoadPokemon";
-import { PokemonData } from "../../types/types";
+import type { Poke } from "./LoadPokemon";
+import { PokemonData } from "@/types/types";
 import { motion } from "motion/react";
 import Image from "next/image";
-import { PokeType } from "../../types/types";
+import { PokeType } from "@/types/types";
 
 
-function CardPokemon({ pokemon, number }: { pokemon: Pokemon, number: number }) {
+function CardPokemon({ pokemon, number }: { pokemon: Poke, number: number }) {
 
     const [data, setData] = useState<PokemonData | null>(null)
 

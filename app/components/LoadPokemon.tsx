@@ -1,14 +1,14 @@
 "use client"
 
 // import type { Pokemon } from "@/types/types";
-import type { Ablility } from "../../types/types";
+import type { Ablility } from "@/types/types";
 import { fetchPokemon } from "@/app/actions/getPokemon";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { ClipLoader } from "react-spinners";
 import CardPokemon from "./CardPokemon";
 
-export type Pokemon = {
+export type Poke = {
     name: string,
     url: string
     number: number,
@@ -19,7 +19,7 @@ export type Pokemon = {
 function LoadPokemon({ search, initialPokemonList
 } : {
   search?: string | undefined;
-  initialPokemonList?: Pokemon[] | undefined;
+  initialPokemonList?: Poke[] | undefined;
 }) {
 
   const [pokemon, setPokemon] = useState(initialPokemonList);
@@ -42,7 +42,7 @@ function LoadPokemon({ search, initialPokemonList
     setPokemon((prev) => {
       if (!prev) return newPokemonList;
 
-      const pokemonSet = newPokemonList.filter((pokemon: Pokemon) => {
+      const pokemonSet = newPokemonList.filter((pokemon: Poke) => {
         return !prev.some((poke) => poke.name === pokemon.name);
       });
       return [...prev, ...pokemonSet];
@@ -69,7 +69,7 @@ function LoadPokemon({ search, initialPokemonList
     m-1
     ">
       {pokemon && 
-        pokemon.map((poke: Pokemon, index: number) => (
+        pokemon.map((poke: Poke, index: number) => (
           <CardPokemon
             key={poke.url}
             pokemon={poke}

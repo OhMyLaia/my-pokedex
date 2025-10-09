@@ -20,7 +20,7 @@ function LoadPokemon({ initialPokemonList }: { initialPokemonList?: Poke[] }) {
   useEffect(() => {
     const loadPokemon = async () => {
       setLoading(true);
-      const all = await getPokemon({ page: 1, limit: 1000 }); // fetch 1000 for search
+      const all = await getPokemon({ page: 1, limit: 1000 });
       setAllPokemon(all || []);
       setPokemon(all || []);
       setLoading(false);

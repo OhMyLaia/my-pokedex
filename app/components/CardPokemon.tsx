@@ -8,7 +8,7 @@ import { PokeType } from "@/types/types";
 import { getPredominantType } from "@/lib/poke-predominant-type";
 
 
-function CardPokemon({ pokemon, number, onClick }: { pokemon: Poke, number: number, onClick: React.MouseEventHandler<HTMLDivElement> }) {
+function CardPokemon({ pokemon, id, onClick }: { pokemon: Poke, id: number, onClick: React.MouseEventHandler<HTMLDivElement> }) {
 
     const [data, setData] = useState<PokemonData | null>(null)
 
@@ -91,17 +91,6 @@ function CardPokemon({ pokemon, number, onClick }: { pokemon: Poke, number: numb
                         bg-indigo-100
                         rounded-xl px-4">
                         {pokemon.name.toUpperCase()}</h2>
-                    {/* <div className="flex flex-col w-50 h-35">
-                        <h3 className="m-1 text-indigo-700 text-shadow-sm px-4 text-center text-2xl">SKILLS</h3>
-                        {data?.abilities && data.abilities.map((ability, index) => (
-                            <span
-                                className="text-indigo-700 italic text-xl"
-                                key={index}>
-                                {ability.ability.name}
-                                </span>
-                        ))}
-                    </div> */}
-
                     <div className="flex flex-col w-50 h-35">
                         <h3 className="m-1 text-indigo-700 text-shadow-sm px-4 text-center text-2xl">TYPE</h3>
                         {data?.types && data.types.map((type, index) => (

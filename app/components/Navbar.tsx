@@ -3,16 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 
-function Navbar({ onSearch }: { onSearch: (query: string) => void }) {
-    const [query, setQuery] = useState("");
-    const [showSearch, setShowSearch] = useState(false);
-
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value
-        setQuery(value)
-        onSearch(value)
-    }
+function Navbar() {
 
     return (
         <div className="navbar bg-amber-400 shadow-sm mb-15">
@@ -27,7 +18,6 @@ function Navbar({ onSearch }: { onSearch: (query: string) => void }) {
                             height={50}
                             className="mx-5 my-2"
                         />
-                        {/* <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h7" /> </svg> */}
                     </div>
                     <ul
                         tabIndex={0}

@@ -41,14 +41,12 @@ function PokeDetail({ poke, index, onClose }: PokeDetailProps) {
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-            {/* Modal content */}
             <div
                 className={`relative bg-white/70 shadow-lg rounded-lg
                 max-w-md w-full
                 min-h-md h-1/3/2
                 mx-4 p-6 animate-fade-in`}
             >
-                {/* Close button */}
                 <button
                     onClick={onClose}
                     className="absolute top-3 right-3 text-gray-500 hover:text-red-500 text-2xl"
@@ -56,7 +54,6 @@ function PokeDetail({ poke, index, onClose }: PokeDetailProps) {
                     ✕
                 </button>
 
-                {/* Pokemon Image */}
                 <Image
                     className="mx-auto"
                     src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${index + 1}.svg`}
@@ -71,17 +68,13 @@ function PokeDetail({ poke, index, onClose }: PokeDetailProps) {
                     }}
                 />
 
-                {/* Name and ID */}
                 <div className="text-center mt-4">
                     <h1 className="text-5xl font-bold text-gray-800 capitalize">{poke.name}</h1>
                     <p className="text-2xl text-gray-600"># {index + 1}</p>
                 </div>
 
-                {/* Info section with two columns */}
                 <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6 items-center justify-center">
-                    {/* LEFT SIDE */}
                     <div className="flex flex-col gap-3">
-                        {/* Types */}
                         <div>
                             <h2 className="text-xl font-semibold text-gray-800">Types</h2>
                             <div className="flex flex-wrap gap-2 mt-2">
@@ -97,14 +90,12 @@ function PokeDetail({ poke, index, onClose }: PokeDetailProps) {
                             </div>
                         </div>
 
-                        {/* Height & Weight */}
                         <div className="text-gray-800">
                             <h2 className="text-lg font-semibold">Height: {data?.height}</h2>
                             <h2 className="text-lg font-semibold">Weight: {data?.weight}</h2>
                         </div>
                     </div>
 
-                    {/* RIGHT SIDE */}
                     <div className="flex flex-col justify-center items-center gap-3">
                         <h2 className="text-xl font-semibold text-gray-800 animate-bounce">Add to Favs ↓</h2>
                         <button className="px-2 py-2 bg-white rounded-full w-fit hover:bg-red-600 transition">

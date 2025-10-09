@@ -57,7 +57,7 @@ function LoadPokemon({ initialPokemonList }: { initialPokemonList?: Poke[] }) {
       {pokemon.length === 0 && query.trim() !== "" ? (
         <p className="text-center text-red-600 mt-6 text-lg">No coincidences 😢</p>
       ) : (
-        <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 m-1">
+        <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 m-1">
           {pokemon.map((poke, index) => (
             <CardPokemon
               key={poke.url}

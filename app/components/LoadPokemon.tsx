@@ -55,7 +55,7 @@ function LoadPokemon({ initialPokemonList }: { initialPokemonList?: Poke[] }) {
       </div>
 
       {pokemon.length === 0 && query.trim() !== "" ? (
-        <p className="text-center text-red-600 mt-6 text-lg">No coincidences 😢</p>
+        <p className="text-center text-red-600 mt-6 text-lg">No coincidences</p>
       ) : (
         <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 m-1">
           {pokemon.map((poke, index) => (

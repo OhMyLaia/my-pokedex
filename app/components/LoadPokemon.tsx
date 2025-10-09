@@ -1,79 +1,32 @@
 "use client"
 
-import type { Ablility, Poke } from "@/types/types";
-import { fetchPokemon } from "@/app/actions/getPokemon";
+import type { Poke } from "@/types/types";
+import { getPokemon } from "@/lib/poke-fetch";
 import { useEffect, useState } from "react";
-import { useInView } from "react-intersection-observer";
 import { ClipLoader } from "react-spinners";
 import CardPokemon from "./CardPokemon";
 import PokeDetail from "./PokeDetail";
 import { pokemonNameStartsWithQuery } from "@/lib/poke-query";
 
-function LoadPokemon({ search, initialPokemonList
-}: {
-  search?: string | undefined;
-  initialPokemonList?: Poke[] | undefined;
-}) {
+function LoadPokemon({ initialPokemonList }: { initialPokemonList?: Poke[] }) {
 
-  const [pokemon, setPokemon] = useState<Poke[]>(initialPokemonList || []);
   const [allPokemon, setAllPokemon] = useState<Poke[]>(initialPokemonList || []);
+  const [pokemon, setPokemon] = useState<Poke[]>(initialPokemonList || []);
   const [selectedPoke, setSelectedPoke] = useState<{ poke: Poke; index: number } | null>(null);
-  const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [query, setQuery] = useState("");
-  const { ref, inView } = useInView({
-    // threshold: 0,
-    // triggerOnce: false
-  });
-
-  // const loadMorePokemon = async () => {
-  //   setLoading(true)
-  //   const nextPage = page + 1;
-  //   const newPokemonList = await fetchPokemon({
-  //     search,
-  //     page: nextPage
-  //   });
-
-  //   const handleSearch = (query: string) => {
-  //     setQuery(query);
-  //     if (!query) setPokemon(initialPokemonList);
-  //   }
-
-  //   const filtered = pokemon?.filter((poke) =>
-  //     pokemonNameStartsWithQuery(poke.name, query)
-  //   );
-  //   setPokemon(filtered);
-
-  //   setPage(nextPage);
-  //   setAllPokemon((prev) => {
-  //     if (!prev) return newPokemonList;
-
-  //     const pokemonSet = newPokemonList.filter((pokemon: Poke) => {
-  //       return !prev.some((poke) => poke.name === pokemon.name);
-  //     });
-  //     return [...prev, ...pokemonSet];
-  //   });
-
-  //   setLoading(false);
-  // }
 
 
-  // useEffect(() => {
-  //   if (inView) {
-  //     loadMorePokemon();
-  //   }
-  // }, [inView])
-
-  const loadMorePokemon = async () => {
-    setLoading(true)
-    const nextPage = page + 1;
-    const newPokemonList = await fetchPokemon({ page: nextPage });
-
-    setPage(nextPage);
-    setAllPokemon((prev) => [...(prev || []), ...newPokemonList]);
-    setPokemon((prev) => [...(prev || []), ...newPokemonList]);
-    setLoading(false);
-  };
+  useEffect(() => {
+    const loadPokemon = async () => {
+      setLoading(true);
+      const all = await getPokemon({ page: 1, limit: 1000 }); // fetch 1000 for search
+      setAllPokemon(all || []);
+      setPokemon(all || []);
+      setLoading(false);
+    };
+    loadPokemon();
+  }, []);
 
 
   const handleSearch = (q: string) => {
@@ -82,28 +35,16 @@ function LoadPokemon({ search, initialPokemonList
       setPokemon(allPokemon);
       return;
     }
-  }
+    const filtered = allPokemon.filter((p) =>
+      pokemonNameStartsWithQuery(p.name, q)
+    );
+    setPokemon(filtered);
+  };
 
-  //   const filtered = allPokemon?.filter((p) =>
-  //     pokemonNameStartsWithQuery(p.name, q)
-  //   );
-  //   setPokemon(filtered);
-  // };
 
-  const filteredPokemon = query
-  ? allPokemon.filter(p => pokemonNameStartsWithQuery(p.name, query))
-  : pokemon
-
-  useEffect(() => {
-    if (inView) {
-      loadMorePokemon();
-    }
-  }, [inView]);
-
-  console.log(`hellooooo`)
   return (
     <>
-      <div className="flex flex-row justify-center">
+      <div className="flex justify-center my-4">
         <input
           type="text"
           placeholder="Search Pokémon..."
@@ -113,36 +54,36 @@ function LoadPokemon({ search, initialPokemonList
         />
       </div>
 
-      {filteredPokemon?.length === 0 && !loading ? (
-        <p className="text-center text-indigo-800 mt-6 text-lg">No coincidences</p>
+      {pokemon.length === 0 && query.trim() !== "" ? (
+        <p className="text-center text-red-600 mt-6 text-lg">No coincidences 😢</p>
       ) : (
-        <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-15 m-1">
-          {filteredPokemon?.map((poke: Poke, index: number) => (
+        <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 m-1">
+          {pokemon.map((poke, index) => (
             <CardPokemon
               key={poke.url}
               pokemon={poke}
-              id={poke.id}
+              id={poke.id ?? parseInt(poke.url.split("/").slice(-2, -1)[0])}
               onClick={() => setSelectedPoke({ poke, index })}
             />
           ))}
         </div>
       )}
-      <div>
-        {selectedPoke && (
-          <PokeDetail
-            poke={selectedPoke.poke}
-            index={selectedPoke.index}
-            onClose={() => setSelectedPoke(null)}
-          />
-        )}
-      </div>
-      {pokemon && pokemon.length >= 24 && (
-        <div className="flex justify-center items-center p-4 text-center mx-auto" ref={ref}>
+
+      {selectedPoke && (
+        <PokeDetail
+          poke={selectedPoke.poke}
+          index={selectedPoke.index}
+          onClose={() => setSelectedPoke(null)}
+        />
+      )}
+
+      {loading && (
+        <div className="flex justify-center items-center p-4">
           <ClipLoader />
         </div>
       )}
     </>
-  )
+  );
 }
 
 export default LoadPokemon;

@@ -82,12 +82,17 @@ function LoadPokemon({ search, initialPokemonList
       setPokemon(allPokemon);
       return;
     }
+  }
 
-    const filtered = allPokemon?.filter((p) =>
-      pokemonNameStartsWithQuery(p.name, q)
-    );
-    setPokemon(filtered);
-  };
+  //   const filtered = allPokemon?.filter((p) =>
+  //     pokemonNameStartsWithQuery(p.name, q)
+  //   );
+  //   setPokemon(filtered);
+  // };
+
+  const filteredPokemon = query
+  ? allPokemon.filter(p => pokemonNameStartsWithQuery(p.name, query))
+  : pokemon
 
   useEffect(() => {
     if (inView) {
@@ -108,35 +113,21 @@ function LoadPokemon({ search, initialPokemonList
         />
       </div>
 
-      {pokemon?.length === 0 && !loading ? (
-        <p className="text-center text-indigo-800 mt-6 text-lg">No coincidences 😢</p>
+      {filteredPokemon?.length === 0 && !loading ? (
+        <p className="text-center text-indigo-800 mt-6 text-lg">No coincidences</p>
       ) : (
         <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-15 m-1">
-          {pokemon?.map((poke: Poke, index: number) => (
+          {filteredPokemon?.map((poke: Poke, index: number) => (
             <CardPokemon
               key={poke.url}
               pokemon={poke}
-              number={index + 1}
+              id={poke.id}
               onClick={() => setSelectedPoke({ poke, index })}
             />
           ))}
         </div>
-
-      )
-
-        // {pokemon &&
-        //   pokemon.map((poke: Poke, index: number) => (
-        //     <CardPokemon
-        //       key={poke.url}
-        //       pokemon={poke}
-        //       number={index + 1}
-        //       onClick={() => setSelectedPoke({ poke, index })}
-        //     />
-        //   ))
-        // }
-      }
+      )}
       <div>
-
         {selectedPoke && (
           <PokeDetail
             poke={selectedPoke.poke}
@@ -144,7 +135,6 @@ function LoadPokemon({ search, initialPokemonList
             onClose={() => setSelectedPoke(null)}
           />
         )}
-
       </div>
       {pokemon && pokemon.length >= 24 && (
         <div className="flex justify-center items-center p-4 text-center mx-auto" ref={ref}>
@@ -155,4 +145,4 @@ function LoadPokemon({ search, initialPokemonList
   )
 }
 
-export default LoadPokemon
+export default LoadPokemon;

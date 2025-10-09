@@ -40,6 +40,7 @@ function CardPokemon({ pokemon, number, onClick }: { pokemon: Poke, number: numb
 
     const predominantType: string = getPredominantType(data?.types ?? (pokemon as Poke).types);
     const bgColour = PokeType[predominantType as keyof typeof PokeType] || "rgb(255, 203, 5)";
+    const pokeId = (data?.id ?? pokemon.id) || Number(pokemon.url.split("/").slice(-2, -1)[0]);
 
     return (
         <motion.div
@@ -69,7 +70,7 @@ function CardPokemon({ pokemon, number, onClick }: { pokemon: Poke, number: numb
             <div className="flex items-center justify-center h-full w-full font-mono">
                 <Image
                     className="mx-auto"
-                    src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${number}.svg`}
+                    src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${pokeId}.svg`}
                     alt={pokemon.name}
                     width={150}
                     height={150}

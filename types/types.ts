@@ -1,7 +1,7 @@
 export type Poke = {
     name: string,
     url: string
-    number: number,
+    id: number,
     abilities: Ablility,
     height: number,
     weight: number,
@@ -16,10 +16,11 @@ export interface Ablility {
 }
 
 export interface PokemonData {
-    height: number;
-    weight: number;
-    abilities: Ablility[];
-    types: { type: { name: string } }[];
+    id: number,
+    height: number,
+    weight: number,
+    abilities: Ablility[],
+    types: { type: { name: string } }[]
 }
 
 export enum PokeType {

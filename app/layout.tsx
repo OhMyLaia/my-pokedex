@@ -32,6 +32,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="en" className={vt323.className}>
       <body className={`bg-gradient-to-r from-indigo-100 to-indigo-500 min-h-screen antialiased`}>

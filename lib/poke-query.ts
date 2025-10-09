@@ -1,5 +1,3 @@
 export function pokemonNameStartsWithQuery(name: string, query: string) {
-
-    return name.toLocaleLowerCase().startsWith(query);
-
+    return name.toLowerCase().startsWith(query.trim().toLowerCase());
 }

@@ -7,87 +7,151 @@ import { useInView } from "react-intersection-observer";
 import { ClipLoader } from "react-spinners";
 import CardPokemon from "./CardPokemon";
 import PokeDetail from "./PokeDetail";
+import { pokemonNameStartsWithQuery } from "@/lib/poke-query";
 
 function LoadPokemon({ search, initialPokemonList
-} : {
+}: {
   search?: string | undefined;
   initialPokemonList?: Poke[] | undefined;
 }) {
 
-  const [pokemon, setPokemon] = useState<Poke[] | undefined>(initialPokemonList);
+  const [pokemon, setPokemon] = useState<Poke[]>(initialPokemonList || []);
+  const [allPokemon, setAllPokemon] = useState<Poke[]>(initialPokemonList || []);
   const [selectedPoke, setSelectedPoke] = useState<{ poke: Poke; index: number } | null>(null);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
-  const {ref, inView} = useInView({
+  const [query, setQuery] = useState("");
+  const { ref, inView } = useInView({
     // threshold: 0,
     // triggerOnce: false
   });
 
+  // const loadMorePokemon = async () => {
+  //   setLoading(true)
+  //   const nextPage = page + 1;
+  //   const newPokemonList = await fetchPokemon({
+  //     search,
+  //     page: nextPage
+  //   });
+
+  //   const handleSearch = (query: string) => {
+  //     setQuery(query);
+  //     if (!query) setPokemon(initialPokemonList);
+  //   }
+
+  //   const filtered = pokemon?.filter((poke) =>
+  //     pokemonNameStartsWithQuery(poke.name, query)
+  //   );
+  //   setPokemon(filtered);
+
+  //   setPage(nextPage);
+  //   setAllPokemon((prev) => {
+  //     if (!prev) return newPokemonList;
+
+  //     const pokemonSet = newPokemonList.filter((pokemon: Poke) => {
+  //       return !prev.some((poke) => poke.name === pokemon.name);
+  //     });
+  //     return [...prev, ...pokemonSet];
+  //   });
+
+  //   setLoading(false);
+  // }
+
+
+  // useEffect(() => {
+  //   if (inView) {
+  //     loadMorePokemon();
+  //   }
+  // }, [inView])
+
   const loadMorePokemon = async () => {
     setLoading(true)
     const nextPage = page + 1;
-    const newPokemonList = await fetchPokemon({
-      search,
-      page: nextPage
-    });
+    const newPokemonList = await fetchPokemon({ page: nextPage });
 
     setPage(nextPage);
-    setPokemon((prev) => {
-      if (!prev) return newPokemonList;
-
-      const pokemonSet = newPokemonList.filter((pokemon: Poke) => {
-        return !prev.some((poke) => poke.name === pokemon.name);
-      });
-      return [...prev, ...pokemonSet];
-    });
-
+    setAllPokemon((prev) => [...(prev || []), ...newPokemonList]);
+    setPokemon((prev) => [...(prev || []), ...newPokemonList]);
     setLoading(false);
-  }
+  };
 
+
+  const handleSearch = (q: string) => {
+    setQuery(q);
+    if (!q.trim()) {
+      setPokemon(allPokemon);
+      return;
+    }
+
+    const filtered = allPokemon?.filter((p) =>
+      pokemonNameStartsWithQuery(p.name, q)
+    );
+    setPokemon(filtered);
+  };
 
   useEffect(() => {
     if (inView) {
       loadMorePokemon();
     }
-  }, [inView])
+  }, [inView]);
 
-  console.log(`hellooooo` )
+  console.log(`hellooooo`)
   return (
-    <div className="
-    grid
-    sm:grid-cols-2
-    md:grid-cols-2
-    lg:grid-cols-4
-    gap-15
-    m-1
-    ">
-      {pokemon && 
-        pokemon.map((poke: Poke, index: number) => (
-          <CardPokemon
-            key={poke.url}
-            pokemon={poke}
-            number={index+1}
-            onClick={() => setSelectedPoke({poke, index})}
-          />
-        ))
+    <>
+      <div className="flex flex-row justify-center">
+        <input
+          type="text"
+          placeholder="Search Pokémon..."
+          value={query}
+          onChange={(e) => handleSearch(e.target.value)}
+          className="input input-bordered w-1/3 mb-12 bg-white text-indigo-700 text-xl"
+        />
+      </div>
+
+      {pokemon?.length === 0 && !loading ? (
+        <p className="text-center text-indigo-800 mt-6 text-lg">No coincidences 😢</p>
+      ) : (
+        <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-15 m-1">
+          {pokemon?.map((poke: Poke, index: number) => (
+            <CardPokemon
+              key={poke.url}
+              pokemon={poke}
+              number={index + 1}
+              onClick={() => setSelectedPoke({ poke, index })}
+            />
+          ))}
+        </div>
+
+      )
+
+        // {pokemon &&
+        //   pokemon.map((poke: Poke, index: number) => (
+        //     <CardPokemon
+        //       key={poke.url}
+        //       pokemon={poke}
+        //       number={index + 1}
+        //       onClick={() => setSelectedPoke({ poke, index })}
+        //     />
+        //   ))
+        // }
       }
       <div>
 
-      {selectedPoke && (
-      <PokeDetail
-        poke={selectedPoke.poke}
-        index={selectedPoke.index}
-        onClose={() => setSelectedPoke(null)}
-      />
-    )}
+        {selectedPoke && (
+          <PokeDetail
+            poke={selectedPoke.poke}
+            index={selectedPoke.index}
+            onClose={() => setSelectedPoke(null)}
+          />
+        )}
 
       </div>
-      { pokemon && pokemon.length >= 24 && (
+      {pokemon && pokemon.length >= 24 && (
         <div className="flex justify-center items-center p-4 text-center mx-auto" ref={ref}>
           <ClipLoader />
         </div>
       )}
-    </div>
+    </>
   )
 }
 

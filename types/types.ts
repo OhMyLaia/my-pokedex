@@ -3,6 +3,8 @@ export type Poke = {
     url: string
     number: number,
     abilities: Ablility,
+    height: number,
+    weight: number,
     types: { type: { name: string } }[]
 }
 
@@ -38,7 +40,8 @@ export enum PokeType {
     ice = "rgb(103, 232, 249)",
     dragon = "rgb(67, 56, 202)",
     steel = "rgb(156, 163, 175)",
-    dark = "rgb(31, 41, 55)"
+    dark = "rgb(31, 41, 55)",
+    default = "rgb(255, 255, 255)"
 }
 
 

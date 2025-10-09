@@ -60,14 +60,10 @@ function Navbar() {
                     <ul
                         tabIndex={0}
                         className="menu menu-sm dropdown-content bg-amber-400 rounded-box
-                        z-1 mt-3 w-52 p-2 shadow text-indigo-800
-                        sm:text-md
-                        md:text-xl
-                        text-2xl
+                        z-1 mt-3 w-52 p-2 shadow
                         ">
-                        <li><a>Homepage</a></li>
-                        <li><a>Portfolio</a></li>
-                        <li><a>About</a></li>
+                        <li><a className="text-indigo-800 text-2xl">My favs</a></li>
+                        <li><a className="text-indigo-800 text-2xl">About</a></li>
                     </ul>
                 </div>
             </div>

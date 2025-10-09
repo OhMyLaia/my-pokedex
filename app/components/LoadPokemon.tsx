@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { ClipLoader } from "react-spinners";
 import CardPokemon from "./CardPokemon";
+import PokeDetail from "./PokeDetail";
 
 function LoadPokemon({ search, initialPokemonList
 } : {
@@ -14,6 +15,7 @@ function LoadPokemon({ search, initialPokemonList
 }) {
 
   const [pokemon, setPokemon] = useState<Poke[] | undefined>(initialPokemonList);
+  const [selectedPoke, setSelectedPoke] = useState<{ poke: Poke; index: number } | null>(null);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const {ref, inView} = useInView({
@@ -65,10 +67,19 @@ function LoadPokemon({ search, initialPokemonList
             key={poke.url}
             pokemon={poke}
             number={index+1}
+            onClick={() => setSelectedPoke({poke, index})}
           />
         ))
       }
       <div>
+
+      {selectedPoke && (
+      <PokeDetail
+        poke={selectedPoke.poke}
+        index={selectedPoke.index}
+        onClose={() => setSelectedPoke(null)}
+      />
+    )}
 
       </div>
       { pokemon && pokemon.length >= 24 && (

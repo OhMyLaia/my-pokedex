@@ -5,9 +5,10 @@ import { PokemonData, Poke } from "@/types/types";
 import { motion } from "motion/react";
 import Image from "next/image";
 import { PokeType } from "@/types/types";
+import { getPredominantType } from "@/lib/poke-predominant-type";
 
 
-function CardPokemon({ pokemon, number }: { pokemon: Poke, number: number }) {
+function CardPokemon({ pokemon, number, onClick }: { pokemon: Poke, number: number, onClick: React.MouseEventHandler<HTMLDivElement> }) {
 
     const [data, setData] = useState<PokemonData | null>(null)
 
@@ -36,26 +37,13 @@ function CardPokemon({ pokemon, number }: { pokemon: Poke, number: number }) {
 
     }, [pokemon.url]);
 
-    const getPredominantType = (types?: { type: { name: string } }[]) => {
-        if (!types || types.length === 0) {
-            return "rgb(255, 255, 255)";
-        }
-        // else {
-        //     return types[0].type.name
-        // }
 
-        return types.length > 1
-            ? types[1].type.name === "normal"
-                ? types[0].type.name
-                : types[1].type.name
-                : types[0].type.name;
-    }
-
-    const predominantType: string = getPredominantType(data?.types ?? (pokemon as any).types);
+    const predominantType: string = getPredominantType(data?.types ?? (pokemon as Poke).types);
     const bgColour = PokeType[predominantType as keyof typeof PokeType] || "rgb(255, 203, 5)";
 
     return (
         <motion.div
+            onClick={onClick}
             style={{ backgroundColor: "rgba(255, 255, 255, 0.4)" }}
             whileHover={{
                 scale: 1.05,

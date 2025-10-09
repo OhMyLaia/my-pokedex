@@ -1,36 +1,112 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# My Pokedex
 
-## Getting Started
+A **Next.js Pokémon app** built with TypeScript, TailwindCSS, and server-side rendering.  
+Explore Pokémon, filter them by name, and manage favorites.
 
-First, run the development server:
+---
+
+## **Table of Contents**
+
+- [Demo](#demo)  
+- [Features](#features)  
+- [Tech Stack](#tech-stack)  
+- [Project Structure](#project-structure)  
+- [Installation](#installation)  
+- [Usage](#usage)  
+- [Contributing](#contributing)  
+- [License](#license)
+
+---
+
+## **Demo**
+
+Add link to your deployed app (Vercel):  
+[https://your-pokedex.vercel.app](https://your-pokedex.vercel.app)
+
+---
+
+## **Features**
+
+- List Pokémon with images and details  
+- Filter Pokémon by name  
+- Add/remove Pokémon to favorites  
+- Server-side rendering (SSR) for faster load and SEO  
+- Responsive design for mobile and desktop  
+- Uses modern Next.js App Router and React components  
+
+---
+
+## **Tech Stack**
+
+- [Next.js 13](https://nextjs.org/) (App Router + SSR)  
+- [React](https://reactjs.org/)  
+- [TypeScript](https://www.typescriptlang.org/)  
+- [TailwindCSS](https://tailwindcss.com/)  
+- Context API for managing favorites  
+- Fetching data from [PokéAPI](https://pokeapi.co/)  
+- Vercel for deployment  
+
+---
+
+## **Project Structure**
+
+my-pokedex/
+├─ app/
+│  ├─ layout.tsx            # Root layout
+│  ├─ page.tsx              # Home page
+│  ├─ context/              # Contexts (favorites)
+│  └─ components/           # UI components (Navbar, Footer, LoadPokemon)
+├─ public/
+│  └─ favicon.ico / pokeball-icon.png
+├─ types/
+│  └─ Types.ts              # TypeScript types (Poke, PokemonData, PokeType)
+├─ lib/                     # Helper functions / API calls
+├─ package.json
+├─ tsconfig.json
+├─ next.config.mjs
+└─ README.md
+
+---
+
+## **Installation**
+
+Clone the repo:
 
 ```bash
+git clone https://github.com/your-username/my-pokedex.git
+cd my-pokedex
+
+npm install
+# or
+yarn install
+
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+npm run build
+npm start
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Deployment
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The project is ready to deploy to Vercel.
+	1.	Push your repo to GitHub
+	2.	Connect GitHub repo in Vercel
+	3.	Set environment variables (if any, e.g., API_URL)
+	4.	Deploy — Vercel handles Next.js build automatically
 
-## Learn More
+⸻
 
-To learn more about Next.js, take a look at the following resources:
+Contributing
+	1.	Fork the repository
+	2.	Create a new branch: git checkout -b feature/my-feature
+	3.	Make your changes
+	4.	Commit your changes: git commit -m 'Add new feature'
+	5.	Push to branch: git push origin feature/my-feature
+	6.	Open a Pull Request
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+⸻
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+License
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is open source and available under the MIT License.

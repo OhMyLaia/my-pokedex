@@ -1,82 +1,89 @@
-"use client";
-import type { Pokemon } from "./Types";
-import { fetchPokemon } from "@/app/actions/getPokemon";
+"use client"
+
+import type { Poke } from "@/types/types";
+import { getPokemon } from "@/lib/poke-fetch";
 import { useEffect, useState } from "react";
-import { useInView } from "react-intersection-observer";
 import { ClipLoader } from "react-spinners";
 import CardPokemon from "./CardPokemon";
+import PokeDetail from "./PokeDetail";
+import { pokemonNameStartsWithQuery } from "@/lib/poke-query";
 
-function LoadPokemon({ search, initialPokemonList
-} : {
-  search?: string | undefined;
-  initialPokemonList?: Pokemon[] | undefined;
-}) {
+function LoadPokemon({ initialPokemonList }: { initialPokemonList?: Poke[] }) {
 
-  const [pokemon, setPokemon] = useState(initialPokemonList);
-  const [page, setPage] = useState(1);
+  const [allPokemon, setAllPokemon] = useState<Poke[]>(initialPokemonList || []);
+  const [pokemon, setPokemon] = useState<Poke[]>(initialPokemonList || []);
+  const [selectedPoke, setSelectedPoke] = useState<{ poke: Poke; index: number } | null>(null);
   const [loading, setLoading] = useState(false);
-  const {ref, inView} = useInView({
-    // threshold: 0,
-    // triggerOnce: false
-  });
-
-  const loadMorePokemon = async () => {
-    setLoading(true)
-    const nextPage = page + 1;
-    const newPokemonList = await fetchPokemon({
-      search,
-      page: nextPage
-    });
-
-    setPage(nextPage);
-    setPokemon((prev) => {
-      if (!prev) return newPokemonList;
-
-      const pokemonSet = newPokemonList.filter((pokemon: Pokemon) => {
-        return !prev.some((poke) => poke.name === pokemon.name);
-      });
-      return [...prev, ...pokemonSet];
-    });
-
-    setLoading(false);
-  }
+  const [query, setQuery] = useState("");
 
 
   useEffect(() => {
-    if (inView) {
-      loadMorePokemon();
+    const loadPokemon = async () => {
+      setLoading(true);
+      const all = await getPokemon({ page: 1, limit: 1000 });
+      setAllPokemon(all || []);
+      setPokemon(all || []);
+      setLoading(false);
+    };
+    loadPokemon();
+  }, []);
+
+
+  const handleSearch = (q: string) => {
+    setQuery(q);
+    if (!q.trim()) {
+      setPokemon(allPokemon);
+      return;
     }
-  }, [inView])
+    const filtered = allPokemon.filter((p) =>
+      pokemonNameStartsWithQuery(p.name, q)
+    );
+    setPokemon(filtered);
+  };
 
-  console.log(`hellooooo` )
+
   return (
-    <div className="
-    grid
-    sm:grid-cols-2
-    md:grid-cols-2
-    lg:grid-cols-4
-    gap-15
-    m-1
-    ">
-      {pokemon && 
-        pokemon.map((poke: Pokemon, index: number) => (
-          <CardPokemon
-            key={poke.url}
-            pokemon={poke}
-            number={index+1}
-          />
-        ))
-      }
-      <div>
-
+    <>
+      <div className="flex justify-center my-4">
+        <input
+          type="text"
+          placeholder="Search Pokémon..."
+          value={query}
+          onChange={(e) => handleSearch(e.target.value)}
+          className="input input-bordered w-1/3 mb-12 bg-white text-indigo-700 text-xl"
+        />
       </div>
-      { pokemon && pokemon.length >= 24 && (
-        <div className="flex justify-center items-center p-4 text-center mx-auto" ref={ref}>
+
+      {pokemon.length === 0 && query.trim() !== "" ? (
+        <p className="text-center text-red-600 mt-6 text-lg">No coincidences 😢</p>
+      ) : (
+        <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 m-1">
+          {pokemon.map((poke, index) => (
+            <CardPokemon
+              key={poke.url}
+              pokemon={poke}
+              id={poke.id ?? parseInt(poke.url.split("/").slice(-2, -1)[0])}
+              onClick={() => setSelectedPoke({ poke, index })}
+            />
+          ))}
+        </div>
+      )}
+
+      {selectedPoke && (
+        <PokeDetail
+          poke={selectedPoke.poke}
+          index={selectedPoke.index}
+          onClose={() => setSelectedPoke(null)}
+        />
+      )}
+
+      {loading && (
+        <div className="flex justify-center items-center p-4">
           <ClipLoader />
         </div>
       )}
-    </div>
-  )
+    </>
+  );
 }
 
-export default LoadPokemon
+export default LoadPokemon;

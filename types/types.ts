@@ -1,10 +1,13 @@
-export type Pokemon = {
+export type Poke = {
     name: string,
     url: string
-    number: number,
+    id: number,
     abilities: Ablility,
+    height: number,
+    weight: number,
     types: { type: { name: string } }[]
 }
+
 
 export interface Ablility {
     ability: {
@@ -13,10 +16,11 @@ export interface Ablility {
 }
 
 export interface PokemonData {
-    height: number;
-    weight: number;
-    abilities: Ablility[];
-    types: { type: { name: string } }[];
+    id: number,
+    height: number,
+    weight: number,
+    abilities: Ablility[],
+    types: { type: { name: string } }[]
 }
 
 export enum PokeType {
@@ -37,7 +41,8 @@ export enum PokeType {
     ice = "rgb(103, 232, 249)",
     dragon = "rgb(67, 56, 202)",
     steel = "rgb(156, 163, 175)",
-    dark = "rgb(31, 41, 55)"
+    dark = "rgb(31, 41, 55)",
+    default = "rgb(255, 255, 255)"
 }
 
 

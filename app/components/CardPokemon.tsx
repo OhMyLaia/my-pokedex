@@ -1,14 +1,14 @@
 'use client'
 
 import { useEffect, useState } from "react";
-import type { Pokemon } from "./Types";
-import { Ablility, PokemonData } from "./Types";
+import { PokemonData, Poke } from "@/types/types";
 import { motion } from "motion/react";
 import Image from "next/image";
-import { PokeType } from "./Types";
+import { PokeType } from "@/types/types";
+import { getPredominantType } from "@/lib/poke-predominant-type";
 
 
-function CardPokemon({ pokemon, number }: { pokemon: Pokemon, number: number }) {
+function CardPokemon({ pokemon, id, onClick }: { pokemon: Poke, id: number, onClick: React.MouseEventHandler<HTMLDivElement> }) {
 
     const [data, setData] = useState<PokemonData | null>(null)
 
@@ -37,26 +37,14 @@ function CardPokemon({ pokemon, number }: { pokemon: Pokemon, number: number }) 
 
     }, [pokemon.url]);
 
-    const getPredominantType = (types?: { type: { name: string } }[]) => {
-        if (!types || types.length === 0) {
-            return "rgb(255, 255, 255)";
-        }
-        // else {
-        //     return types[0].type.name
-        // }
 
-        return types.length > 1
-            ? types[1].type.name === "normal"
-                ? types[0].type.name
-                : types[1].type.name
-                : types[0].type.name;
-    }
-
-    const predominantType: string = getPredominantType(data?.types ?? (pokemon as any).types);
+    const predominantType: string = getPredominantType(data?.types ?? (pokemon as Poke).types);
     const bgColour = PokeType[predominantType as keyof typeof PokeType] || "rgb(255, 203, 5)";
+    const pokeId = (data?.id ?? pokemon.id) || Number(pokemon.url.split("/").slice(-2, -1)[0]);
 
     return (
         <motion.div
+            onClick={onClick}
             style={{ backgroundColor: "rgba(255, 255, 255, 0.4)" }}
             whileHover={{
                 scale: 1.05,
@@ -82,7 +70,7 @@ function CardPokemon({ pokemon, number }: { pokemon: Pokemon, number: number }) 
             <div className="flex items-center justify-center h-full w-full font-mono">
                 <Image
                     className="mx-auto"
-                    src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${number}.svg`}
+                    src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${pokeId}.svg`}
                     alt={pokemon.name}
                     width={150}
                     height={150}
@@ -103,17 +91,6 @@ function CardPokemon({ pokemon, number }: { pokemon: Pokemon, number: number }) 
                         bg-indigo-100
                         rounded-xl px-4">
                         {pokemon.name.toUpperCase()}</h2>
-                    {/* <div className="flex flex-col w-50 h-35">
-                        <h3 className="m-1 text-indigo-700 text-shadow-sm px-4 text-center text-2xl">SKILLS</h3>
-                        {data?.abilities && data.abilities.map((ability, index) => (
-                            <span
-                                className="text-indigo-700 italic text-xl"
-                                key={index}>
-                                {ability.ability.name}
-                                </span>
-                        ))}
-                    </div> */}
-
                     <div className="flex flex-col w-50 h-35">
                         <h3 className="m-1 text-indigo-700 text-shadow-sm px-4 text-center text-2xl">TYPE</h3>
                         {data?.types && data.types.map((type, index) => (

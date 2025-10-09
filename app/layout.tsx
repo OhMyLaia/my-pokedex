@@ -24,6 +24,7 @@ const vt323 = VT323({
 export const metadata: Metadata = {
   title: "my-Pokedex",
   description: "Next.js Pokedex",
+  icons: "pokeball-icon.png"
 };
 
 export default function RootLayout({
@@ -31,6 +32,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="en" className={vt323.className}>
       <body className={`bg-gradient-to-r from-indigo-100 to-indigo-500 min-h-screen antialiased`}>
